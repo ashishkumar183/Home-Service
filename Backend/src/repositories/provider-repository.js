@@ -21,6 +21,11 @@ class ProviderRepository {
   );
 }
 
+static async getAll() {
+  return Provider.findAll();
+}
+
+
 }
 
 module.exports = ProviderRepository;
