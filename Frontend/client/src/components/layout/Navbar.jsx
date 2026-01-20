@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
-const linkClass =
+const base =
   'px-4 py-2 rounded-md text-sm font-medium transition';
 
 const active =
@@ -17,28 +17,31 @@ export default function Navbar() {
       </div>
 
       <div className="flex gap-3">
+        {/* USER */}
         <NavLink
           to="/user/create"
           className={({ isActive }) =>
-            `${linkClass} ${isActive ? active : inactive}`
+            `${base} ${isActive ? active : inactive}`
           }
         >
           User
         </NavLink>
 
+        {/* PROVIDER (IMPORTANT FIX) */}
         <NavLink
-          to="/provider/bookings"
+          to="/provider"
           className={({ isActive }) =>
-            `${linkClass} ${isActive ? active : inactive}`
+            `${base} ${isActive ? active : inactive}`
           }
         >
           Provider
         </NavLink>
 
+        {/* ADMIN */}
         <NavLink
           to="/admin/dashboard"
           className={({ isActive }) =>
-            `${linkClass} ${isActive ? active : inactive}`
+            `${base} ${isActive ? active : inactive}`
           }
         >
           Admin

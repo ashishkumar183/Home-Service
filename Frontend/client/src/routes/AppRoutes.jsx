@@ -1,30 +1,57 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-// User pages
+/* =======================
+   USER PAGES
+======================= */
 import CreateBooking from '../pages/CreateBooking';
 import BookingStatus from '../pages/BookingStatus';
 
-// Provider pages
-import ProviderBookings from '../pages/ProviderBookings';
+/* =======================
+   PROVIDER PAGES
+======================= */
+import ProviderSelect from '../pages/ProviderSelect';
+import ProviderDashboard from '../pages/ProviderDashboard';
 
-// Admin pages
+/* =======================
+   ADMIN PAGES
+======================= */
 import AdminPanel from '../pages/AdminPanel';
 
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* Default */}
+      {/* -----------------------
+         DEFAULT REDIRECT
+      ------------------------ */}
       <Route path="/" element={<Navigate to="/user/create" />} />
 
-      {/* User */}
+      {/* -----------------------
+         USER ROUTES
+      ------------------------ */}
       <Route path="/user/create" element={<CreateBooking />} />
       <Route path="/user/booking/:id" element={<BookingStatus />} />
 
-      {/* Provider */}
-      <Route path="/provider/bookings" element={<ProviderBookings />} />
+      {/* -----------------------
+         PROVIDER ROUTES
+      ------------------------ */}
+      {/* Provider selection (cards) */}
+      <Route path="/provider" element={<ProviderSelect />} />
 
-      {/* Admin */}
+      {/* Individual provider dashboard */}
+      <Route
+        path="/provider/:providerId/dashboard"
+        element={<ProviderDashboard />}
+      />
+
+      {/* -----------------------
+         ADMIN ROUTES
+      ------------------------ */}
       <Route path="/admin/dashboard" element={<AdminPanel />} />
+
+      {/* -----------------------
+         FALLBACK (OPTIONAL)
+      ------------------------ */}
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }
