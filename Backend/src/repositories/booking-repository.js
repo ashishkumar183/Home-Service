@@ -11,6 +11,21 @@ class BookingRepository {
       { where: { id: bookingId } }
     );
   }
+
+  static async updateStatus(bookingId, status) {
+    return Booking.update({ status }, { where: { id: bookingId } });
+  }
+
+  static async getByProvider(providerId) {
+    return Booking.findAll({
+      where: { assignedProviderId: providerId }
+    });
+  }
+
+  static async getById(id) {
+    return Booking.findByPk(id);
+  }
+
 }
 
 module.exports = BookingRepository;

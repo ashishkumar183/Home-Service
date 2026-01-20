@@ -38,7 +38,7 @@ class BookingService {
       });
     }
 
-    return booking;
+    return await BookingRepository.getById(booking.id);
   }
 }
 

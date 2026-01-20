@@ -1,4 +1,9 @@
+const ProviderController = require('./provider-controller');
+InfoController = require('./info-controller');
+BookingController = require('./booking-controller');
+
 module.exports = {
-   InfoController: require('./info-controller'),
-   BookingController: require('./booking-controller'),
+   InfoController,
+   BookingController,
+   ProviderController
 }
