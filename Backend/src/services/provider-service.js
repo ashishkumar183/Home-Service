@@ -71,32 +71,44 @@ class ProviderService {
 }
 
   static async startBooking(bookingId) {
-    await BookingRepository.updateStatus(
-      bookingId,
-      bookingStatus.IN_PROGRESS
-    );
+  const booking = await BookingRepository.getById(bookingId);
 
-    await BookingHistoryRepository.create({
-      bookingId,
-      fromStatus: bookingStatus.ASSIGNED,
-      toStatus: bookingStatus.IN_PROGRESS,
-      changedBy: userRole.PROVIDER
-    });
-  }
+  await BookingRepository.updateStatus(
+    bookingId,
+    bookingStatus.IN_PROGRESS
+  );
+
+  // 👇 mark provider busy
+  await ProviderRepository.markUnavailable(booking.assignedProviderId);
+
+  await BookingHistoryRepository.create({
+    bookingId,
+    fromStatus: bookingStatus.ASSIGNED,
+    toStatus: bookingStatus.IN_PROGRESS,
+    changedBy: userRole.PROVIDER
+  });
+}
+
 
   static async completeBooking(bookingId) {
-    await BookingRepository.updateStatus(
-      bookingId,
-      bookingStatus.COMPLETED
-    );
+  const booking = await BookingRepository.getById(bookingId);
 
-    await BookingHistoryRepository.create({
-      bookingId,
-      fromStatus: bookingStatus.IN_PROGRESS,
-      toStatus: bookingStatus.COMPLETED,
-      changedBy: userRole.PROVIDER
-    });
-  }
+  await BookingRepository.updateStatus(
+    bookingId,
+    bookingStatus.COMPLETED
+  );
+
+  // 👇 free provider
+  await ProviderRepository.markAvailable(booking.assignedProviderId);
+
+  await BookingHistoryRepository.create({
+    bookingId,
+    fromStatus: bookingStatus.IN_PROGRESS,
+    toStatus: bookingStatus.COMPLETED,
+    changedBy: userRole.PROVIDER
+  });
+}
+
 }
 
 module.exports = ProviderService;

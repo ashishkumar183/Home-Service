@@ -7,6 +7,13 @@ class ProviderRepository {
     });
   }
 
+  static async markAvailable(providerId) {
+  return Provider.update(
+    { isAvailable: true },
+    { where: { id: providerId } }
+  );
+}
+
   static async markUnavailable(providerId) {
   return Provider.update(
     { isAvailable: false },

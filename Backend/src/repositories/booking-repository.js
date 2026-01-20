@@ -26,6 +26,10 @@ class BookingRepository {
     return Booking.findByPk(id);
   }
 
+  static async getAll() {
+    return Booking.findAll();
+  }
+
 }
 
 module.exports = BookingRepository;

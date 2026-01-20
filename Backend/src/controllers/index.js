@@ -1,9 +1,11 @@
+const AdminController = require('./admin-controller');
 const ProviderController = require('./provider-controller');
-InfoController = require('./info-controller');
-BookingController = require('./booking-controller');
+const InfoController = require('./info-controller');
+const BookingController = require('./booking-controller');
 
 module.exports = {
    InfoController,
    BookingController,
-   ProviderController
+   ProviderController,
+   AdminController
 }
