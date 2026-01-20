@@ -15,3 +15,16 @@ export async function createBooking(payload) {
 
   return res.json();
 }
+
+export async function getBookingById(id) {
+  const res = await fetch(`${BASE_URL}/v1/bookings/${id}`);
+  if (!res.ok) throw new Error('Failed to fetch booking');
+  return res.json();
+}
+
+export async function getBookingHistory(id) {
+  const res = await fetch(`${BASE_URL}/v1/bookings/${id}/history`);
+  if (!res.ok) throw new Error('Failed to fetch history');
+  return res.json();
+}
+
