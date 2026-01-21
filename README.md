@@ -17,7 +17,7 @@ React (Vite) ,Tailwind CSS , React Router
 - Auto assign provider (ASSIGNED)
 - Provider starts work (IN_PROGRESS)
 - Provider completes work (COMPLETED)
-- Admin can override booking state at any time
+ Admin can override booking state at any time
 
 ### Provider Workflow
 - View assigned bookings
@@ -37,6 +37,10 @@ React (Vite) ,Tailwind CSS , React Router
 - Provider availability management
 - Admin override for stuck or failed states
 - Audit logging for every status change
+- Centralized error handling using `try-catch` blocks across controllers and services to:
+  - Prevent unhandled runtime failures
+  - Return consistent API error responses
+  - Ensure partial operations do not leave the system in an inconsistent state
 
 ## 🧭 Quick Demo Flow (How to Review This Project)
 
@@ -82,7 +86,7 @@ This section explains why certain design choices were made, what alternatives ex
 **Decision:**
 - Booking states are explicitly defined and enforced:
 - PENDING → ASSIGNED → IN_PROGRESS → COMPLETED
-        → FAILED / CANCELLED
+-          → FAILED / CANCELLED
 
 - Every transition is validated and logged.
 
