@@ -40,6 +40,15 @@ class BookingService {
 
     return await BookingRepository.getById(booking.id);
   }
+
+  static async getBookingById(id) {
+  return BookingRepository.getById(id);
+}
+
+static async getBookingHistory(bookingId) {
+  return BookingHistoryRepository.getByBookingId(bookingId);
+}
+
 }
 
 module.exports = BookingService;

@@ -17,6 +17,48 @@ class BookingController {
       });
     }
   }
+
+  static async getBookingById(req, res) {
+  try {
+    const booking = await BookingService.getBookingById(req.params.id);
+
+    if (!booking) {
+      return res.status(404).json({
+        success: false,
+        message: 'Booking not found'
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: booking
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+}
+
+static async getBookingHistory(req, res) {
+  try {
+    const history = await BookingService.getBookingHistory(
+      req.params.id
+    );
+
+    return res.status(200).json({
+      success: true,
+      data: history
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+}
+
 }
 
 module.exports = BookingController;
