@@ -38,6 +38,23 @@ Provider availability management
 Admin override for stuck or failed states
 Audit logging for every status change
 
+## 🧭 Quick Demo Flow (How to Review This Project)
+
+1. Start the backend and frontend (instructions below)
+2. Go to **User → Create Booking**
+3. Create a booking (status starts as `PENDING`)
+4. System auto-assigns a provider (`ASSIGNED`)
+5. Go to **Provider → Select Provider → Dashboard**
+   - Accept / reject / start / complete bookings
+6. Go to **Admin → Dashboard**
+   - Override booking status
+   - Reassign providers
+   - Add operational reasons
+7. Go back to **User Dashboard**
+   - View booking history and timeline
+
+This flow demonstrates the complete booking lifecycle end-to-end.
+
 ## 🧠 Design Decisions & Trade-offs
 
 This section explains why certain design choices were made, what alternatives existed, and why they were intentionally not chosen for this assignment.
@@ -163,52 +180,86 @@ Skill-based provider matching
 Load balancing
 Geo-based assignment
 
-## 7. Frontend Focused on Workflow, Not Visual Polish
+### 7. Frontend Focused on Workflow Clarity
 
 **Decision:**
-Frontend is intentionally minimal and functional.
+The frontend is designed to clearly expose system workflows rather than prioritize visual complexity.
 
 **Why this approach was chosen:**
-Assignment explicitly prioritizes system behavior over UI polish.
-UI is used as a tool to trigger and observe backend workflows.
+The primary goal is to make booking state transitions, provider actions, and admin overrides easy to observe and test.
+This ensures reviewers can validate backend behavior without UI distractions.
 
 **Trade-off:**
-UI is not production-grade in terms of design.
-Limited animations or styling.
+UI styling is functional rather than production-polished.
 
 **Why it’s acceptable:**
-Clean and usable.
-Clearly demonstrates system behavior.
-Keeps attention on backend logic.
+The UI remains clean, usable, and purpose-driven.
+All critical workflows are fully accessible and traceable.
+
+## 📌 Assumptions
+Single service per booking
+One provider per booking at a time
+No authentication (focus on system behavior)
+Providers have availability flag (isAvailable)
 
 ## 📊 Entity Relationship Diagram
-The system is designed around three core entities: Booking, Provider, and BookingHistory.
-A Booking represents a customer service request.
-A Provider fulfills bookings and has availability state.
-BookingHistory captures every state transition for auditability.
-This structure ensures clear lifecycle tracking, operational visibility, and supports manual overrides without data inconsistency.
+```mermaid
+erDiagram
+    BOOKING ||--o{ BOOKING_HISTORY : has
+    PROVIDER ||--o{ BOOKING : assigned_to
+
+    BOOKING {
+        int id PK
+        string customerName
+        string serviceType
+        enum status
+        int assignedProviderId FK
+        datetime createdAt
+    }
+
+    PROVIDER {
+        int id PK
+        string name
+        boolean isAvailable
+    }
+
+    BOOKING_HISTORY {
+        int id PK
+        int bookingId FK
+        enum fromStatus
+        enum toStatus
+        enum actor
+        string reason
+        datetime createdAt
+    }
+```
+### Explanation
+Booking represents a customer service request and maintains the current lifecycle state.
+Provider fulfills bookings and can be assigned to multiple bookings over time.
+BookingHistory records every state transition (including admin overrides) for auditability.
+This design enables full lifecycle traceability, operational visibility, and safe manual intervention without data inconsistency.
 
 ## 📁 Project Structure
 
 Home-Service/
 ├── Backend/
 │   ├── src/
-│   │   ├── controllers/
-│   │   ├── services/
-│   │   ├── repositories/
-│   │   ├── models/
-│   │   ├── routes/
-│   │   ├── utils/
+│   │   ├── controllers/     # HTTP request handling
+│   │   ├── services/        # Business logic
+│   │   ├── repositories/    # Database access
+│   │   ├── models/          # Sequelize models
+│   │   ├── routes/          # API routes
+│   │   ├── utils/           # Helpers & constants
 │   │   └── server.js
 │   └── package.json
 │
 ├── Frontend/
 │   └── client/
 │       ├── src/
-│       │   ├── pages/
-│       │   ├── components/
-│       │   ├── routes/
-│       │   └── api/
+│       │   ├── pages/       # Route-level pages
+│       │   ├── components/  # Reusable UI components
+│       │   ├── routes/      # React Router config
+│       │   └── api/         # API abstraction layer
 │       └── package.json
 │
 └── README.md
@@ -301,14 +352,40 @@ Override booking status
 Reassign providers
 Enter reason for operational actions
 
-## 📌 Assumptions
-Single service per booking
-One provider per booking at a time
-No authentication (focus on system behavior)
-Providers have availability flag (isAvailable)
+## 🖼️ Application Snapshots
+### 👤 User Flow
+Create booking
+![Create Booking](image.png)
+
+### 🧑‍🔧 Provider Flow
+View assigned bookings
+Accept / Reject / Start / Complete
+![All providers](image-1.png)
+
+![Each provider Dashboard](image-3.png)
+
+### 🛠️ Admin Flow
+View all bookings
+Override status
+Reassign provider
+Reason & audit trail
+![Admin Page](image-2.png)
+
+## 🚀 Production Improvements (Future Scope)
+
+If extended beyond this assignment, the following improvements would be added:
+
+- Authentication & Authorization (JWT + RBAC)
+- Provider skill-based and location-based matching
+- Concurrency handling for provider assignment
+- Pagination and filtering for admin dashboards
+- WebSocket / real-time updates for booking status
+- Centralized logging and monitoring
+- Rate limiting and request validation
+
 
 ## 🙌 Final Notes
 This project intentionally prioritizes backend correctness, state handling, and operational workflows over UI polish, aligning with the assignment focus.
 
 ## 👤 Author
-** Ashish Kumar **
+**Ashish Kumar**
