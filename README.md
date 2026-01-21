@@ -82,7 +82,7 @@ This section explains why certain design choices were made, what alternatives ex
 **Decision:**
 - Booking states are explicitly defined and enforced:
 - PENDING → ASSIGNED → IN_PROGRESS → COMPLETED
-        → FAILED / CANCELLED
+-        → FAILED / CANCELLED
 
 - Every transition is validated and logged.
 
