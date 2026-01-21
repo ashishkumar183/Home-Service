@@ -59,7 +59,7 @@ This flow demonstrates the complete booking lifecycle end-to-end.
 
 This section explains why certain design choices were made, what alternatives existed, and why they were intentionally not chosen for this assignment.
 
-### 1. Role-Based Workflow Without Authentication
+### 🧑‍🤝‍🧑1. Role-Based Workflow Without Authentication
 **Decision:**
 Authentication and authorization were intentionally skipped. Instead, role-based dashboards (User, Provider, Admin) are exposed directly via frontend navigation.
 
@@ -76,7 +76,7 @@ JWT-based authentication
 Role-based access control (RBAC)
 Provider-specific authorization checks
 
-### 2. Explicit Booking State Machine
+### 🔄2. Explicit Booking State Machine
 **Decision:**
 Booking states are explicitly defined and enforced:
 PENDING → ASSIGNED → IN_PROGRESS → COMPLETED
@@ -98,7 +98,7 @@ Prevents data inconsistency.
 Makes debugging and operational support easier.
 Aligns with real-world marketplace systems.
 
-### 3. Layered Backend Architecture (Controller → Service → Repository)
+### 🏗️3. Layered Backend Architecture (Controller → Service → Repository)
 
 **Decision:**
 Backend logic is separated into clear layers:
@@ -120,7 +120,7 @@ Slightly higher initial setup effort.
 This structure scales well as features grow.
 Reflects real-world backend engineering practices.
 
-### 4. Admin Actions with Explicit Audit Trail
+### 🛠️4. Admin Actions with Explicit Audit Trail
 
 **Decision:**
 All admin actions (status override, provider reassignment) are logged with:
@@ -143,7 +143,7 @@ Enables operational visibility.
 Matches how real ops dashboards work.
 Makes post-incident analysis possible.
 
-### 5. Optional Reason Input (Not Mandatory)
+### ✍️5. Optional Reason Input (Not Mandatory)
 
 **Decision:**
 Reason fields for admin actions are optional, not required.
@@ -160,7 +160,7 @@ Some actions may not have a reason attached.
 System design balances speed vs documentation.
 In real systems, optional fields are common for ops tools.
 
-### 6. Provider Auto-Assignment with Retry Logic
+### 🔁6. Provider Auto-Assignment with Retry Logic
 
 **Decision:**
 Providers are auto-assigned based on availability.
@@ -180,7 +180,7 @@ Skill-based provider matching
 Load balancing
 Geo-based assignment
 
-### 7. Frontend Focused on Workflow Clarity
+### 🎯7. Frontend Focused on Workflow Clarity
 
 **Decision:**
 The frontend is designed to clearly expose system workflows rather than prioritize visual complexity.
@@ -240,7 +240,7 @@ BookingHistory records every state transition (including admin overrides) for au
 This design enables full lifecycle traceability, operational visibility, and safe manual intervention without data inconsistency.
 
 ## 📁 Project Structure
-
+```bash
 Home-Service/
 ├── Backend/
 │   ├── src/
@@ -263,7 +263,7 @@ Home-Service/
 │       └── package.json
 │
 └── README.md
-
+```
 ## ▶️ How to Run the Project
 
 ### Prerequisites
@@ -355,21 +355,21 @@ Enter reason for operational actions
 ## 🖼️ Application Snapshots
 ### 👤 User Flow
 Create booking
-![Create Booking](image.png)
+![Create Booking](./screenshots/image.png)
 
 ### 🧑‍🔧 Provider Flow
 View assigned bookings
 Accept / Reject / Start / Complete
-![All providers](image-1.png)
+![All providers](./screenshots/image-1.png)
 
-![Each provider Dashboard](image-3.png)
+![Each provider Dashboard](./screenshots/image-3.png)
 
 ### 🛠️ Admin Flow
 View all bookings
 Override status
 Reassign provider
 Reason & audit trail
-![Admin Page](image-2.png)
+![Admin Page](./screenshots/image-2.png)
 
 ## 🚀 Production Improvements (Future Scope)
 
